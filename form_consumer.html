@@ -25,40 +25,40 @@
 					<form method="POST" action="">
 
 						<label class="col-form-label">Location of Purchase: </label>
-						<input type="text" name="population" class="form-control">
+						<input type="text" name="population" class="form-control" id="1">
 
 						<br>
 						<label class="col-form-label">Product ID :</label>
-						<input type="text" name="population" class="form-control" value="">
+						<input type="text" name="population" class="form-control" value="" id="2">
 
 						<br>
-						<label class="col-form-label">Location of sale:</label>
-						<input type="text" name="population" class="form-control">
+						<label class="col-form-label" >Location of sale:</label>
+						<input type="text" name="population" class="form-control" id="3">
 
 						<br>
 						<label class="col-form-label">Quantity:</label>
-						<input type="number" name="population" class="form-control">
+						<input type="number" name="population" class="form-control" id="4">
 
 						<br>
 						<label class="col-form-label">Price:</label>
-						<input type="number" name="population" class="form-control">
+						<input type="number" name="population" class="form-control" id="5">
 
 						<br>
 						<label class="col-form-label">Point of Contact:</label>
-						<input type="text" name="population" class="form-control">
+						<input type="text" name="population" class="form-control" id="6">
 
 						<hr>
 						<h3 class="text-center">Timber Properties</h3>
 
 						<label class="col-form-label">Color:</label>
-						<input type="text" name="population" class="form-control">
+						<input type="text" name="population" class="form-control" id="7">
 
 						<label class="col-form-label">Size:</label>
-						<input type="text" name="population" class="form-control">
+						<input type="text" name="population" class="form-control" id="8">
 
 						<br>
 						<div class="text-center">
-							<input type="submit" value="Sell" class="btn btn-success col-md-2">
+							<input type="submit" value="Sell" class="btn btn-success col-md-2" id="9">
 						</div>
 						
 					</form>
@@ -103,3 +103,72 @@
 <script src="js/bootstrap.min.js"></script>
 
 <script src="node_modules/web3/dist/web3.min.js"></script>
+<script>
+	const ABI = [
+{
+"constant": false,
+"inputs": [
+	{
+		"name": "_fName",
+		"type": "string"
+	},
+	{
+		"name": "_age",
+		"type": "uint256"
+	}
+],
+"name": "setInstructor",
+"outputs": [],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "getInstructor",
+"outputs": [
+	{
+		"name": "",
+		"type": "string"
+	},
+	{
+		"name": "",
+		"type": "uint256"
+	}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+}
+];
+
+var web3;
+if (typeof web3 !== 'undefined') {
+	web3 = new Web3(web3.currentProvider);
+} else {
+	// set the provider you want from Web3.providers
+	web3 = new Web3('http://127.0.0.1:8545');
+	console.log(web3.currentProvider);
+}
+console.log(web3.eth.getAccounts); 
+var CoursetroContract =new  web3.eth.Contract(ABI);
+CoursetroContract.options.address = '0x00870bb07798a423589D5104883d4f96b0620Ca2';
+console.log(CoursetroContract); 
+
+var account= web3.eth.getAccounts().then();
+console.log(account);
+
+$("#9").click(function() {
+web3.eth.getAccounts().then(function(result){
+	return result[0];
+}).then(function (account){
+	console.log(account);
+	web3.eth.defaultAccount = account;
+	console.log(web3.eth.defaultAccount);
+	CoursetroContract.methods.setInstructor($("#name").val(), $("#age").val());
+	console.log($("#name").val());
+});
+
+});
+</script>
